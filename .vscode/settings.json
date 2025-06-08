@@ -1,6 +1,7 @@
 {
     "conventionalCommits.scopes": [
         "board",
-        "deps"
+        "deps",
+        "piece"
     ]
 }
