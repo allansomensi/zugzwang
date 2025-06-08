@@ -1,6 +1,6 @@
 [package]
 name = "zugzwang"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Allan Somensi <allansomensidev@gmail.com>"]
 description = "A minimalist cross-platform chess game developed in Rust using macroquad."
 homepage = "https://github.com/allansomensi/zugzwang"
@@ -12,6 +12,7 @@ edition = "2024"
 
 [dependencies]
 macroquad = "0.4.14"
+shakmaty = "0.27.3"
 
 [dev-dependencies.cargo-husky]
 version = "1.5.0"
