@@ -1,7 +1,26 @@
 [package]
 name = "zugzwang"
 version = "0.1.0"
+authors = ["Allan Somensi <allansomensidev@gmail.com>"]
+description = "A minimalist cross-platform chess game developed in Rust using macroquad."
+homepage = "https://github.com/allansomensi/zugzwang"
+repository = "https://github.com/allansomensi/zugzwang"
+readme = "README.md"
+keywords = ["chess"]
+license = "MIT"
 edition = "2024"
 
 [dependencies]
 macroquad = "0.4.14"
+
+[dev-dependencies.cargo-husky]
+version = "1.5.0"
+default-features = false
+features = [
+    "run-for-all",
+    "prepush-hook",
+    "precommit-hook",
+    "run-cargo-test",
+    "run-cargo-clippy",
+    "run-cargo-fmt",
+]
