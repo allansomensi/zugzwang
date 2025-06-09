@@ -1,3 +1,4 @@
+mod audio;
 mod board;
 mod config;
 mod input;
@@ -12,6 +13,7 @@ async fn main() {
     let mut config = config::BoardConfig::new();
     let mut state = state::GameState::default();
     let textures = piece::load_piece_textures().await;
+    state.load_audio().await;
 
     loop {
         clear_background(DARKGRAY);

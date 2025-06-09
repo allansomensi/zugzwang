@@ -3,6 +3,7 @@
         "board",
         "deps",
         "piece",
-        "input"
+        "input",
+        "audio"
     ]
 }

@@ -1,10 +1,10 @@
-use crate::{config::BoardConfig, state::GameState};
+use crate::{audio::AudioSystem, config::BoardConfig, state::GameState};
 use macroquad::{
     color::YELLOW,
     input::{MouseButton, is_mouse_button_pressed, mouse_position},
     shapes::draw_rectangle_lines,
 };
-use shakmaty::{Chess, File, Position, Rank, Square};
+use shakmaty::{Chess, File, Move, Position, Rank, Square};
 
 /// Converts mouse coordinates to chess square
 pub fn mouse_square(config: &BoardConfig) -> Option<Square> {
@@ -26,6 +26,7 @@ pub fn handle_mouse_input(
     position: &Chess,
     selected: Option<Square>,
     config: &BoardConfig,
+    audio: &AudioSystem,
 ) -> (Option<Square>, Option<Chess>) {
     if !is_mouse_button_pressed(MouseButton::Left) {
         return (selected, None);
@@ -36,18 +37,26 @@ pub fn handle_mouse_input(
     };
 
     match selected {
-        Some(from) => (None, try_move(position, from, square)),
+        Some(from) => {
+            if let Some((new_position, chess_move)) = try_move(position, from, square) {
+                audio.play_move_sound(&chess_move, position);
+                return (None, Some(new_position));
+            }
+            (None, None)
+        }
         None => (try_select(position, square), None),
     }
 }
 
 /// Try to make a move
-fn try_move(position: &Chess, from: Square, to: Square) -> Option<Chess> {
-    position
-        .legal_moves()
-        .iter()
-        .find(|mv| mv.from() == Some(from) && mv.to() == to)
-        .map(|mv| position.clone().play(mv).unwrap())
+fn try_move(position: &Chess, from: Square, to: Square) -> Option<(Chess, Move)> {
+    for mv in position.legal_moves() {
+        if mv.from() == Some(from) && mv.to() == to {
+            let new_position = position.clone().play(&mv).unwrap();
+            return Some((new_position, mv));
+        }
+    }
+    None
 }
 
 /// Try to select a piece
