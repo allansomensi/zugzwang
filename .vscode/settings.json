@@ -2,6 +2,7 @@
     "conventionalCommits.scopes": [
         "board",
         "deps",
-        "piece"
+        "piece",
+        "input"
     ]
 }

@@ -1,22 +1,27 @@
 mod board;
 mod config;
-mod pieces;
+mod input;
+mod piece;
+mod state;
 
 use crate::config::window_conf;
 use macroquad::prelude::*;
 
 #[macroquad::main(window_conf)]
 async fn main() {
-    let config = config::BoardConfig::new();
-
-    let textures = pieces::load_piece_textures().await;
-    let position = shakmaty::Chess::default();
+    let mut config = config::BoardConfig::new();
+    let mut state = state::GameState::default();
+    let textures = piece::load_piece_textures().await;
 
     loop {
         clear_background(DARKGRAY);
 
+        config.update();
+        state.update(&config);
+
         board::draw_board(&config);
-        pieces::draw_pieces(&position, &textures, &config);
+        piece::draw_pieces(&state.position, &textures, &config);
+        input::draw_selection(&state, &config);
 
         next_frame().await;
     }
