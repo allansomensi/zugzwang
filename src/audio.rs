@@ -30,33 +30,33 @@ impl AudioSystem {
         self.checkmate_sound = load_sound("assets/audio/game-end.ogg").await.ok();
     }
 
-    pub fn play_move_sound(&self, chess_move: &Move, position: &Chess) {
+    pub fn play_move_sound(&self, chess_move: Move, position: &Chess) {
         // Create the position after the move to check for check/checkmate
         let new_position = position.clone();
         if let Ok(new_pos) = new_position.play(chess_move) {
             // Check for checkmate first (highest priority)
-            if new_pos.is_checkmate() {
-                if let Some(sound) = &self.checkmate_sound {
-                    play_sound_once(sound);
-                    return;
-                }
+            if new_pos.is_checkmate()
+                && let Some(sound) = &self.checkmate_sound
+            {
+                play_sound_once(sound);
+                return;
             }
 
             // Check for check
-            if new_pos.is_check() {
-                if let Some(sound) = &self.check_sound {
-                    play_sound_once(sound);
-                    return;
-                }
+            if new_pos.is_check()
+                && let Some(sound) = &self.check_sound
+            {
+                play_sound_once(sound);
+                return;
             }
         }
 
         // Check for castling
-        if chess_move.is_castle() {
-            if let Some(sound) = &self.castling_sound {
-                play_sound_once(sound);
-                return;
-            }
+        if chess_move.is_castle()
+            && let Some(sound) = &self.castling_sound
+        {
+            play_sound_once(sound);
+            return;
         }
 
         // Check if it's a capture

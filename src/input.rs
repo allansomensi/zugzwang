@@ -39,7 +39,7 @@ pub fn handle_mouse_input(
     match selected {
         Some(from) => {
             if let Some((new_position, chess_move)) = try_move(position, from, square) {
-                audio.play_move_sound(&chess_move, position);
+                audio.play_move_sound(chess_move, position);
                 return (None, Some(new_position));
             }
             (None, None)
@@ -52,7 +52,7 @@ pub fn handle_mouse_input(
 fn try_move(position: &Chess, from: Square, to: Square) -> Option<(Chess, Move)> {
     for mv in position.legal_moves() {
         if mv.from() == Some(from) && mv.to() == to {
-            let new_position = position.clone().play(&mv).unwrap();
+            let new_position = position.clone().play(mv).unwrap();
             return Some((new_position, mv));
         }
     }

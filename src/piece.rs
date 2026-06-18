@@ -25,22 +25,22 @@ pub async fn load_piece_textures() -> HashMap<Piece, Texture2D> {
 /// Draws all pieces on the board
 pub fn draw_pieces(position: &Chess, textures: &HashMap<Piece, Texture2D>, config: &BoardConfig) {
     for square in Square::ALL {
-        if let Some(piece) = position.board().piece_at(square) {
-            if let Some(texture) = textures.get(&piece) {
-                let x = config.offset.x + square.file() as u8 as f32 * config.square_size;
-                let y = config.offset.y + (7 - square.rank() as u8) as f32 * config.square_size;
+        if let Some(piece) = position.board().piece_at(square)
+            && let Some(texture) = textures.get(&piece)
+        {
+            let x = config.offset.x + square.file() as u8 as f32 * config.square_size;
+            let y = config.offset.y + (7 - square.rank() as u8) as f32 * config.square_size;
 
-                draw_texture_ex(
-                    texture,
-                    x,
-                    y,
-                    WHITE,
-                    DrawTextureParams {
-                        dest_size: Some(Vec2::new(config.square_size, config.square_size)),
-                        ..Default::default()
-                    },
-                );
-            }
+            draw_texture_ex(
+                texture,
+                x,
+                y,
+                WHITE,
+                DrawTextureParams {
+                    dest_size: Some(Vec2::new(config.square_size, config.square_size)),
+                    ..Default::default()
+                },
+            );
         }
     }
 }
