@@ -34,7 +34,7 @@ impl AudioSystem {
         // Create the position after the move to check for check/checkmate
         let new_position = position.clone();
         if let Ok(new_pos) = new_position.play(chess_move) {
-            // Check for checkmate first (highest priority)
+            // Check for checkmate first
             if new_pos.is_checkmate()
                 && let Some(sound) = &self.checkmate_sound
             {
